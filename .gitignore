@@ -9,3 +9,12 @@ wheels/
 # Virtual environments
 .venv
 .venv/
+
+# Downloaded CIFAR10 data (large)
+data/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log

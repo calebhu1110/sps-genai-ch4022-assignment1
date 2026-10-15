@@ -1,11 +1,12 @@
 # SPS GenAI Assignment 1
 
-This project implements a FastAPI application with spaCy word embeddings.
+This project implements a FastAPI application with spaCy word embeddings (Assignment 1) and a CNN image classifier trained on CIFAR10 (Assignment 2).
 
 ## Features
 
 - FastAPI REST API
 - spaCy `en_core_web_lg` word embeddings
+- PyTorch CNN image classifier (CIFAR10, 10 classes)
 - Docker deployment
 - Interactive API documentation with Swagger UI
 
@@ -24,6 +25,38 @@ Example request:
 {
   "word": "king"
 }
+
+### POST /predict_cnn
+
+Classifies an uploaded image into one of the 10 CIFAR10 classes
+(airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck).
+The image is resized to 64x64 and passed through the CNN.
+
+Example request:
+
+curl -X POST -F "file=@my_image.jpg" http://127.0.0.1:8000/predict_cnn
+
+Example response:
+
+{
+  "predicted_class": "ship",
+  "class_index": 8,
+  "confidence": 0.93
+}
+
+## CNN Architecture
+
+Input 3x64x64 -> Conv(16, 3x3, s1, p1) -> ReLU -> MaxPool(2x2, s2)
+-> Conv(32, 3x3, s1, p1) -> ReLU -> MaxPool(2x2, s2) -> Flatten (8192)
+-> Linear(100) -> ReLU -> Linear(10)
+
+Code: `app/cnn/model.py`. Trained weights: `app/cnn/model.pth`.
+
+## Re-train the model (optional)
+
+uv run --group train python -m training.train
+
+This downloads CIFAR10 into `data/` (git-ignored) and overwrites `app/cnn/model.pth`.
 
 ## Run Locally
 

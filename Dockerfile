@@ -1,4 +1,8 @@
-FROM python:3.12-slim-bookworm
+FROM python:3.13-slim-bookworm
+
+# Use the image's Python 3.13; never let uv download a newer Python
+# (packages like httptools have no prebuilt wheels for it yet).
+ENV UV_PYTHON_DOWNLOADS=never
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
