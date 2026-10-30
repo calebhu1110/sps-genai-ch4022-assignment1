@@ -3,6 +3,7 @@ from pydantic import BaseModel
 import spacy
 
 from app.cnn.api import router as cnn_router
+from app.gan.api import router as gan_router
 
 
 # Load spaCy model
@@ -17,6 +18,9 @@ app = FastAPI(
 
 # CNN image classifier (Assignment 2): adds POST /predict_cnn
 app.include_router(cnn_router)
+
+# GAN digit generator (Assignment 3): adds GET /generate_digit
+app.include_router(gan_router)
 
 
 # Request format
